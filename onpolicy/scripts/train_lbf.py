@@ -28,6 +28,8 @@ def lbf_args(parser):
     parser.add_argument("--cells_per_agent", type=float, default=16.0)
     parser.add_argument("--food_per_agent", type=float, default=1.0)
     parser.add_argument("--num_obstacles", type=int, default=0)  # read by base_runner only
+    parser.add_argument("--snapshot_every", type=int, default=1_000_000,
+                        help="save an actor snapshot every this many env steps (0 = off)")
     return parser
 
 

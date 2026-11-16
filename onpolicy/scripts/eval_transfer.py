@@ -77,6 +77,8 @@ def main():
     p.add_argument("--eval_episodes", type=int, default=100)
     p.add_argument("--seed", type=int, default=12345)
     p.add_argument("--stochastic", action="store_true")
+    p.add_argument("--actor", default="actor.pt",
+                   help="actor file relative to --model_dir, e.g. snapshots/actor_5001600.pt")
     p.add_argument("--out_json", required=True)
     cli = p.parse_args()
 
@@ -86,9 +88,9 @@ def main():
     for k, v in cfg.items():  # the exact training args
         setattr(args, k, v)
     args.use_render = True
-    actor = torch.load(Path(cli.model_dir) / "actor.pt", map_location="cpu")
+    actor = torch.load(Path(cli.model_dir) / cli.actor, map_location="cpu")
 
-    out = {"model_dir": str(cli.model_dir), "train_num_agents": cfg["num_agents"], "kappa": cfg["kappa"],
+    out = {"model_dir": str(cli.model_dir), "actor": cli.actor, "train_num_agents": cfg["num_agents"], "kappa": cfg["kappa"],
            "seed": cfg["seed"], "deterministic": not cli.stochastic, "summary": [], "episodes": {}}
     for m in cli.test_num_agents:
         if m < args.kappa:
