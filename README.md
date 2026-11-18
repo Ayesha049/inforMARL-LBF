@@ -46,11 +46,13 @@ Rule tests: `python tests/test_vec_lbf.py`.
 ```bash
 bash scripts/train_one.sh <kappa> <N> <seed> <env_steps> [gpu]          # logs/train_lbf_k{K}_n{N}_s{S}.log
 python onpolicy/scripts/eval_transfer.py --model_dir <run_dir>/models \
-    --test_num_agents 2 4 6 8 12 16 --eval_episodes 100 --out_json results/eval/<name>.json
+    --test_num_agents 2 4 6 8 12 16 --eval_episodes 200 --out_json results/eval/<name>.json
 ```
 
 Uses the `informarl` conda env of inforMARL-rep (`scripts/repro/setup_env.sh` there).
 
 ## Status
 
-- 2026-11-16: pilot running, N = 4, seed 1, κ = 1 and 2, 10M steps, to fix the training budget per κ.
+- 2026-11-16: pilot (N = 4, seed 1, 10M steps) fixed the budget: κ = 1 3M, κ = 2 10M env steps; actor snapshots every 1M.
+- 2026-11-18: main grid done. 18 runs (κ ∈ {1, 2} × N ∈ {2, 4, 8} × 3 seeds), each evaluated at M ∈ {2, 4, 6, 8, 12, 16}
+  with 200 episodes (`results/eval/main/`, on the server). Results and analysis: thesis repo `docs/06_phase0.md`, Sections 5–7.
